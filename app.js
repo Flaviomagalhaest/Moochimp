@@ -11,6 +11,5 @@ app.listen(3000, function(){
 var swaggerUi = require('swagger-ui-express'),
     swaggerDocument = require('./swagger.json');
 
-// app.use(bodyParser.json())
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 //app.use('/api/v1', routes);

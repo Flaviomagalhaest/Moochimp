@@ -1,5 +1,5 @@
 {
-  "name": "webserver-nodejs-template",
+  "name": "moochimp",
   "version": "1.0.0",
   "description": "Template nodejs",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Flaviomagalhaest/webserver-nodejs-template.git"
+    "url": "git+https://github.com/Flaviomagalhaest/moochimp.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Flaviomagalhaest/webserver-nodejs-template/issues"
+    "url": "https://github.com/Flaviomagalhaest/moochimp/issues"
   },
-  "homepage": "https://github.com/Flaviomagalhaest/webserver-nodejs-template#readme",
+  "homepage": "https://github.com/Flaviomagalhaest/moochimp#readme",
   "dependencies": {
     "ejs": "^2.6.1",
     "express": "^4.16.3",
