@@ -1,0 +1,164 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Integration of Moodle and Mailchimp's API",
+    "version": "1.0.0",
+    "title": "Swagger Moochimp",
+    "contact": {
+      "email": "flaviomagalhaest@gmail.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "Moodle",
+      "description": "Moodle's APIs",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://docs.moodle.org/dev/Web_service_API_functions"
+      }
+    },
+    {
+      "name": "Mailchimp",
+      "description": "Mailchimp's APIs"
+    },
+    {
+      "name": "Moochimp",
+      "description": "Moochimp's APIs"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/moodle/getToken": {
+      "get": {
+        "tags": [
+          "Moodle"
+        ],
+        "summary": "get token of service",
+        "operationId": "getToken",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "description": "Moodle's url",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "username",
+            "in": "query",
+            "description": "Username of service",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "Password of username",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "service",
+            "in": "query",
+            "description": "Service of token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/moodle/createUser": {
+      "post": {
+        "tags": [
+          "Moodle"
+        ],
+        "summary": "creater new user in Moodle",
+        "operationId": "createUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "description": "Moodle's url",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "description": "token of service ",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "functionName",
+            "in": "query",
+            "description": "moodle's webapi function name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "List of object user",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "User"
+      }
+    }
+  }
+}

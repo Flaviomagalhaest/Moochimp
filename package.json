@@ -1,0 +1,26 @@
+{
+  "name": "webserver-nodejs-template",
+  "version": "1.0.0",
+  "description": "Template nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Flaviomagalhaest/webserver-nodejs-template.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Flaviomagalhaest/webserver-nodejs-template/issues"
+  },
+  "homepage": "https://github.com/Flaviomagalhaest/webserver-nodejs-template#readme",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "mongoose": "^5.2.7",
+    "request": "^2.88.0",
+    "swagger-ui-express": "^4.0.1"
+  }
+}
