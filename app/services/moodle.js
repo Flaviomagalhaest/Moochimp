@@ -29,22 +29,18 @@ exports.createUser = function(req, res, next) {
     let moodleUrl = query.url + restSufixUrl;
     let token = query.token;
     let functionName = query.functionName;
-    
-    // let lista = []
-    // let users = req.body[0];
-    // lista.push(users)
-
+    let format = 'json';
     let users = req.body;
-
-    request.post(moodleUrl, {json: {users: JSON.stringify(users)}}, function (error, response, body) {
+    
+    request.post(moodleUrl, function (error, response, body) {
         if (response.statusCode == 200) {
-            res.json(JSON.parse(body).token);
+            res.json(JSON.parse(response.body));
         }
     }).qs({
         'wstoken': token,
         'wsfunction': functionName,
-        'moodlewsrestformat': 'json'
-    })
+        'moodlewsrestformat': format
+    }).form({users: users});
 }
 
 exports.teste = function(teste) {
