@@ -146,10 +146,10 @@
         "password": {
           "type": "string"
         },
-        "firstName": {
+        "firstname": {
           "type": "string"
         },
-        "lastName": {
+        "lastname": {
           "type": "string"
         },
         "email": {
