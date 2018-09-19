@@ -1,6 +1,6 @@
 module.exports = function(app) {
 
-    const moodle = require('../services/moodle');
+    const moodle = require('../services/moodleService');
     const bodyParser = require('body-parser');
 
     //Handler body in post requisitions
