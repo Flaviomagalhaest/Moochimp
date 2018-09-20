@@ -19,7 +19,11 @@
     },
     {
       "name": "Mailchimp",
-      "description": "Mailchimp's APIs"
+      "description": "Mailchimp's APIs",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://developer.mailchimp.com/documentation/"
+      }
     },
     {
       "name": "Moochimp",
@@ -123,6 +127,49 @@
                 "$ref": "#/definitions/User"
               }
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/mailchimp/getTotalUsers": {
+      "get": {
+        "tags": [
+          "Mailchimp"
+        ],
+        "summary": "get total users of list",
+        "operationId": "getTotalUsers",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "description": "Mailchimp API Url (Example - https://us14.api.mailchimp.com/3.0/)",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "listId",
+            "in": "query",
+            "description": "Id of list",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "description": "mailchimp's API token",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {

@@ -1,10 +1,10 @@
 "use strict";
-const tokenSufixUrl = '/login/token.php';
 const restSufixUrl = '/webservice/rest/server.php';
 const controller = require('../controller/moodleController');
+const url = require('url');
 
 exports.getToken = (req, res, next) => {
-    let url = require('url');
+    const tokenSufixUrl = '/login/token.php';
     let query = url.parse(req.url, true).query;
 
     let user = query.username;
@@ -20,7 +20,6 @@ exports.getToken = (req, res, next) => {
 }
 
 exports.createUser = function(req, res, next) {
-    let url = require('url');
     let query = url.parse(req.url, true).query;
 
     let moodleUrl = query.url + restSufixUrl;

@@ -1,6 +1,7 @@
 module.exports = function(app) {
 
     const moodle = require('../services/moodleService');
+    const mailchimp = require('../services/mailchimpService');
     const bodyParser = require('body-parser');
 
     //Handler body in post requisitions
@@ -10,7 +11,7 @@ module.exports = function(app) {
         res.render("index");
     });
 
-
+    //Moodle Services
     app.route('/moodle/getToken')
         .get(moodle.getToken);
 
@@ -19,4 +20,8 @@ module.exports = function(app) {
         
     app.route('/moodle/teste')
         .get(moodle.teste);
+
+    //Mailchimp Services
+    app.route('/mailchimp/getTotalUsers')
+        .get(mailchimp.getTotalUsers);
 }
