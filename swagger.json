@@ -236,6 +236,82 @@
           }
         }
       }
+    },
+    "/mailchimp/getInfoUsers": {
+      "post": {
+        "tags": [
+          "Mailchimp"
+        ],
+        "summary": "get info of users in list",
+        "operationId": "getInfoUsers",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "description": "Mailchimp API Url (Example - https://us14.api.mailchimp.com/3.0/)",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "listId",
+            "in": "query",
+            "description": "Id of list",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "description": "mailchimp's API token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "description": "limit of members in response",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "number of skips in member response",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "since_timestamp_opt",
+            "in": "query",
+            "description": "search members opted after timestamp. format (2015-10-21T15:41:36+00:00.)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "body",
+            "description": "declare fields in response",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Field"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -262,6 +338,25 @@
         "name": "User"
       }
     },
+    "Field": {
+      "type": "object",
+      "properties": {
+        "fields": {
+          "$ref": "#/definitions/Fields"
+        },
+        "exclude_fields": {
+          "$ref": "#/definitions/Fields"
+        }
+      }
+    },
+    "Fields": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        }
+      }
+    },
     "Criteria": {
       "type": "object",
       "properties": {
@@ -269,6 +364,14 @@
           "type": "string"
         },
         "value": {
+          "type": "string"
+        }
+      }
+    },
+    "Filter": {
+      "type": "object",
+      "properties": {
+        "key": {
           "type": "string"
         }
       },

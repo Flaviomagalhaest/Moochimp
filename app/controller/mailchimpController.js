@@ -9,3 +9,15 @@ exports.getTotalUsers = (url, token, fields, callback) => {
         'fields': fields
     }).setHeader('Authorization',token);
 }
+
+exports.getInfoUsers = (params) => {
+    request.get(params['url'], (error, response, body) => {
+        callback(JSON.parse(body));
+    }).qs({
+        'count': params['count'],
+        'offset': params['offset'],
+        'fields': params['fields'],
+        'exclude_fields': params['exclude_fields'],
+        'since_timestamp_opt': params['since_timestamp_opt']
+    }).setHeader('Authorization', params['token']);
+}

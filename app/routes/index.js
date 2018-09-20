@@ -27,4 +27,7 @@ module.exports = function(app) {
     //Mailchimp Services
     app.route('/mailchimp/getTotalUsers')
         .get(mailchimp.getTotalUsers);
+
+    app.route('/mailchimp/getInfoUsers')
+        .post(mailchimp.getInfoUsers);        
 }
