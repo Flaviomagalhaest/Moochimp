@@ -24,3 +24,13 @@ exports.createUser = (url, token, wsfunction, users, callback) => {
         'moodlewsrestformat': 'json'
     }).form({users: users});
 }
+
+exports.getUsers = (url, token, wsfunction, criteria, callback) => {
+    request.post(url, (error, response, body) => {
+        callback(JSON.parse(response.body));
+    }).qs({
+        'wstoken': token,
+        'wsfunction': wsfunction,
+        'moodlewsrestformat': 'json'
+    }).form({criteria: criteria});
+}

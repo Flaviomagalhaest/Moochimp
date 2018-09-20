@@ -139,6 +139,61 @@
         }
       }
     },
+    "/moodle/getUsers": {
+      "post": {
+        "tags": [
+          "Moodle"
+        ],
+        "summary": "get users in Moodle",
+        "operationId": "getUsers",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "description": "Moodle's url",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "description": "token of service ",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "functionName",
+            "in": "query",
+            "description": "moodle's webapi function name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Criteria of search",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Criteria"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
     "/mailchimp/getTotalUsers": {
       "get": {
         "tags": [
@@ -200,6 +255,20 @@
           "type": "string"
         },
         "email": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "User"
+      }
+    },
+    "Criteria": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "value": {
           "type": "string"
         }
       },

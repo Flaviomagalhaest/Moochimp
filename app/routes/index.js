@@ -17,6 +17,9 @@ module.exports = function(app) {
 
     app.route('/moodle/createUser')
         .post(moodle.createUser);
+
+    app.route('/moodle/getUsers')
+        .post(moodle.getUsers);
         
     app.route('/moodle/teste')
         .get(moodle.teste);
