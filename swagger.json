@@ -286,21 +286,21 @@
           {
             "name": "since_timestamp_opt",
             "in": "query",
-            "description": "search members opted after timestamp. format (2015-10-21T15:41:36+00:00.)",
+            "description": "search members opted after timestamp. format (2015-10-21T15:41:36+00:00)",
             "required": false,
             "type": "string"
           },
           {
             "name": "fields",
             "in": "query",
-            "description": "declare fields on response (comma separate)",
+            "description": "declare fields on response with comma separate (example: members.email_address, members.id)",
             "required": false,
             "type": "string"
           },
           {
             "name": "exclude_fields",
             "in": "query",
-            "description": "declare fields to exclude on response (comma separate)",
+            "description": "declare fields to exclude on response with comma separate (example: members.email_address, members.id)",
             "required": false,
             "type": "string"
           }
