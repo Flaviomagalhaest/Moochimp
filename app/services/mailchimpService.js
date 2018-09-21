@@ -27,14 +27,14 @@ exports.getInfoUsers = (req, res, next) => {
         token: 'apikey ' + query.token,
         count: query.count,
         offset: query.offset,
-        fields: req.body.fields,
-        exclude_fields: req.body.exclude_fields,
+        fields: query.fields,
+        exclude_fields: query.exclude_fields,
         since_timestamp_opt: query.since_timestamp_opt
     }
     var a = 1;
-    // controller.getInfoUsers(params, 
-    //     (ret) => {
-    //         res.json(ret);
-    //     }
-    // );
+    controller.getInfoUsers(params, 
+        (ret) => {
+            res.json(ret);
+        }
+    );
 }

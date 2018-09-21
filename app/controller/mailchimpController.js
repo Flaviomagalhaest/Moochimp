@@ -10,7 +10,7 @@ exports.getTotalUsers = (url, token, fields, callback) => {
     }).setHeader('Authorization',token);
 }
 
-exports.getInfoUsers = (params) => {
+exports.getInfoUsers = (params, callback) => {
     request.get(params['url'], (error, response, body) => {
         callback(JSON.parse(body));
     }).qs({

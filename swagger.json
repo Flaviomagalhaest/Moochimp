@@ -291,16 +291,18 @@
             "type": "string"
           },
           {
-            "name": "filter",
-            "in": "body",
-            "description": "declare fields in response",
+            "name": "fields",
+            "in": "query",
+            "description": "declare fields on response (comma separate)",
             "required": false,
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Field"
-              }
-            }
+            "type": "string"
+          },
+          {
+            "name": "exclude_fields",
+            "in": "query",
+            "description": "declare fields to exclude on response (comma separate)",
+            "required": false,
+            "type": "string"
           }
         ],
         "responses": {
@@ -338,7 +340,7 @@
         "name": "User"
       }
     },
-    "Field": {
+    "Filter": {
       "type": "object",
       "properties": {
         "fields": {
@@ -364,14 +366,6 @@
           "type": "string"
         },
         "value": {
-          "type": "string"
-        }
-      }
-    },
-    "Filter": {
-      "type": "object",
-      "properties": {
-        "key": {
           "type": "string"
         }
       },
