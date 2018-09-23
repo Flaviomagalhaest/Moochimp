@@ -21,7 +21,10 @@ module.exports = function(app) {
 
     app.route('/moodle/getUsers')
         .post(moodle.getUsers);
-        
+    
+    app.route('/moodle/enrolUser')
+        .post(moodle.enrolUser);        
+
     app.route('/moodle/teste')
         .get(moodle.teste);
 

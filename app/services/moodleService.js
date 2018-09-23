@@ -49,6 +49,21 @@ exports.getUsers = (req, res, next) => {
     );
 }
 
+exports.enrolUser = (req, res, next) => {
+    let query = url.parse(req.url, true).query;
+
+    let moodleUrl = query.url + restSufixUrl;
+    let token = query.token;
+    let functionName = query.functionName;
+    let enrol = req.body;
+
+    controller.enrolUser(moodleUrl, token, functionName, enrol,
+        (ret) => {
+            res.json(ret);
+        }    
+    );
+}
+
 exports.teste = function(teste) {
     console.log("AEEEE");
 }

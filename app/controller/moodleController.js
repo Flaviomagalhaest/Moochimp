@@ -34,3 +34,13 @@ exports.getUsers = (url, token, wsfunction, criteria, callback) => {
         'moodlewsrestformat': 'json'
     }).form({criteria: criteria});
 }
+
+exports.enrolUser = (url, token, wsfunction, enrol, callback) => {
+    request.post(url, (error, response, body) => {
+        callback(JSON.parse(response.body));
+    }).qs({
+        'wstoken': token,
+        'wsfunction': wsfunction,
+        'moodlewsrestformat': 'json'
+    }).form({enrolments: enrol});
+}

@@ -194,6 +194,61 @@
         }
       }
     },
+    "/moodle/enrolUser": {
+      "post": {
+        "tags": [
+          "Moodle"
+        ],
+        "summary": "Enrol user in course",
+        "operationId": "enrolUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "description": "Moodle's url",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "description": "token of service ",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "functionName",
+            "in": "query",
+            "description": "moodle's webapi function name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "List of object user",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Enrol"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
     "/mailchimp/getTotalUsers": {
       "get": {
         "tags": [
@@ -314,6 +369,35 @@
           }
         }
       }
+    },
+    "/moochimp/sendToQueue": {
+      "get": {
+        "tags": [
+          "Moochimp"
+        ],
+        "summary": "Test queue",
+        "operationId": "sendToQueue",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "description": "Url of node app",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -333,6 +417,23 @@
           "type": "string"
         },
         "email": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "User"
+      }
+    },
+    "Enrol": {
+      "type": "object",
+      "properties": {
+        "roleid": {
+          "type": "string"
+        },
+        "userid": {
+          "type": "string"
+        },
+        "courseid": {
           "type": "string"
         }
       },
