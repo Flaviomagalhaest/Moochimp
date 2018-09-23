@@ -3,6 +3,12 @@ const restSufixUrl = '/webservice/rest/server.php';
 const controller = require('../controller/moodleController');
 const url = require('url');
 
+const wsfunctionMoodle = {
+    createUser: 'core_user_create_users',
+    getUsers: 'core_user_get_users',
+    enrolUser: 'enrol_manual_enrol_users'
+}
+
 exports.getToken = (req, res, next) => {
     const tokenSufixUrl = '/login/token.php';
     let query = url.parse(req.url, true).query;
@@ -24,7 +30,7 @@ exports.createUser = (req, res, next) => {
 
     let moodleUrl = query.url + restSufixUrl;
     let token = query.token;
-    let functionName = query.functionName;
+    let functionName = wsfunctionMoodle['createUser'];
     let users = req.body;
     
     controller.createUser(moodleUrl, token, functionName, users,
@@ -39,7 +45,7 @@ exports.getUsers = (req, res, next) => {
 
     let moodleUrl = query.url + restSufixUrl;
     let token = query.token;
-    let functionName = query.functionName;
+    let functionName = wsfunctionMoodle['getUsers'];
     let criteria = req.body;
 
     controller.getUsers(moodleUrl, token, functionName, criteria,
@@ -54,7 +60,7 @@ exports.enrolUser = (req, res, next) => {
 
     let moodleUrl = query.url + restSufixUrl;
     let token = query.token;
-    let functionName = query.functionName;
+    let functionName = wsfunctionMoodle['enrolUser'];
     let enrol = req.body;
 
     controller.enrolUser(moodleUrl, token, functionName, enrol,

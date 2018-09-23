@@ -90,7 +90,7 @@
           "Moodle"
         ],
         "summary": "creater new user in Moodle",
-        "operationId": "createUser",
+        "operationId": "createUserMoodle",
         "produces": [
           "application/json"
         ],
@@ -106,13 +106,6 @@
             "name": "token",
             "in": "query",
             "description": "token of service ",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "functionName",
-            "in": "query",
-            "description": "moodle's webapi function name",
             "required": true,
             "type": "string"
           },
@@ -165,13 +158,6 @@
             "type": "string"
           },
           {
-            "name": "functionName",
-            "in": "query",
-            "description": "moodle's webapi function name",
-            "required": true,
-            "type": "string"
-          },
-          {
             "in": "body",
             "name": "body",
             "description": "Criteria of search",
@@ -216,13 +202,6 @@
             "name": "token",
             "in": "query",
             "description": "token of service ",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "functionName",
-            "in": "query",
-            "description": "moodle's webapi function name",
             "required": true,
             "type": "string"
           },
@@ -377,6 +356,35 @@
         ],
         "summary": "Test queue",
         "operationId": "sendToQueue",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "description": "Url of node app",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/moochimp/createUser": {
+      "get": {
+        "tags": [
+          "Moochimp"
+        ],
+        "summary": "Search in list of Mailchimp and create user in Moodle",
+        "operationId": "createUser",
         "produces": [
           "application/json"
         ],
