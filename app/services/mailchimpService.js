@@ -3,14 +3,11 @@ const controller = require('../controller/mailchimpController');
 const url = require('url');
 
 exports.getTotalUsers = (req, res, next) => {
-    const listSufix = 'lists/';
     let query = url.parse(req.url, true).query;
 
-    let mailchimpUrl = query.url + listSufix + query.listId;
-    let token = 'apikey ' + query.token;
-    let fields = 'stats.member_count,stats.unsubscribe_count,stats.cleaned_count';
-
-    controller.getTotalUsers(mailchimpUrl, token, fields, 
+    let mailchimpUrl = query.url;
+    let token = query.token;
+    controller.getTotalUsers(mailchimpUrl, token, query.listId,
         (ret) => {
             res.json(ret);
         }
@@ -18,13 +15,11 @@ exports.getTotalUsers = (req, res, next) => {
 }
 
 exports.getInfoUsers = (req, res, next) => {
-    const listSufix = 'lists/';
-    const memberSufix = '/members'
     let query = url.parse(req.url, true).query;
     
     let params = {
-        url: query.url.concat(listSufix, query.listId, memberSufix),
-        token: 'apikey ' + query.token,
+        url: query.url,
+        token: query.token,
         count: query.count,
         offset: query.offset,
         fields: query.fields,
@@ -32,7 +27,7 @@ exports.getInfoUsers = (req, res, next) => {
         since_timestamp_opt: query.since_timestamp_opt
     }
     var a = 1;
-    controller.getInfoUsers(params, 
+    controller.getInfoUsers(params, query.listId,
         (ret) => {
             res.json(ret);
         }

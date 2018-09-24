@@ -1,5 +1,7 @@
 "use strict";
-var amqp = require('amqplib/callback_api');
+const amqp = require('amqplib/callback_api');
+const url = require('url');
+const controller = require('../controller/moochimpController');
 exports.sendToQueue = (req, res, next) => {
   console.log('testando fila')
 
@@ -17,5 +19,21 @@ exports.sendToQueue = (req, res, next) => {
 }
 
 exports.createUser = (req, res, next) => {
+	let query = url.parse(req.url, true).query;
+	
+	let mailchimpParam = {
+		url: query.mailchimpUrl,
+		listId: query.mailchimpListId,
+		token: query.mailchimpToken,
+		body: req.body[0]['mailchimp']
+	}
 
+	let moodleParam = {
+		url: query.moodleUrl,
+		token: query.moodleToken,
+		body: req.body[0]['moodle']
+	}
+
+	let listMailchimp = controller.createUser(mailchimpParam);
+	var a = 1;
 }

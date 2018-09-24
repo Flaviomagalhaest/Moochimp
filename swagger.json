@@ -359,15 +359,6 @@
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "name": "url",
-            "in": "query",
-            "description": "Url of node app",
-            "required": true,
-            "type": "string"
-          }
-        ],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -379,22 +370,62 @@
       }
     },
     "/moochimp/createUser": {
-      "get": {
+      "post": {
         "tags": [
           "Moochimp"
         ],
-        "summary": "Search in list of Mailchimp and create user in Moodle",
+        "summary": "Search in list of Mailchimp and create users in Moodle",
         "operationId": "createUser",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "url",
+            "name": "mailchimpUrl",
             "in": "query",
-            "description": "Url of node app",
+            "description": "Url of Mailchimp",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "mailchimpListId",
+            "in": "query",
+            "description": "ID of list in Mailchimp",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "mailchimpToken",
+            "in": "query",
+            "description": "Token of Mailchimp API",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "moodleUrl",
+            "in": "query",
+            "description": "Url of Moodle",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "moodleToken",
+            "in": "query",
+            "description": "Token of Moodle webservice",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Object of request. __description of variables in Model__",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/CreateUserReq"
+              }
+            }
           }
         ],
         "responses": {
@@ -411,6 +442,7 @@
   "definitions": {
     "User": {
       "type": "object",
+      "description": "Mapping which mailchimp parameters will used to create moodle user. Example: \"username: members.name\"",
       "properties": {
         "username": {
           "type": "string"
@@ -476,6 +508,33 @@
         },
         "value": {
           "type": "string"
+        }
+      }
+    },
+    "CreateUserReq": {
+      "type": "object",
+      "properties": {
+        "mailchimp": {
+          "$ref": "#/definitions/MailChimpCreateUserReq"
+        },
+        "moodle": {
+          "$ref": "#/definitions/User"
+        }
+      }
+    },
+    "MailChimpCreateUserReq": {
+      "type": "object",
+      "properties": {
+        "since_timestamp_opt": {
+          "type": "string"
+        },
+        "fields": {
+          "type": "string",
+          "description": "declare fields on response with comma separate (example: members.email_address, members.id)"
+        },
+        "exclude_fields": {
+          "type": "string",
+          "description": "declare fields to exclude on response with comma separate (example: members.email_address, members.id)"
         }
       },
       "xml": {
