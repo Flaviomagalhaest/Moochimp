@@ -468,7 +468,8 @@
       "type": "object",
       "properties": {
         "roleid": {
-          "type": "string"
+          "type": "string",
+          "description": "1 - manager / 2 - Course creator / 3 - Teacher / 4 - Moderator / 5 - Student / 6 - Guest / 7 - User / 8 - Frontpage User"
         },
         "userid": {
           "type": "string"

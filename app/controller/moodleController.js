@@ -16,13 +16,16 @@ exports.getToken = (url, user, pass, service, callback) => {
             },
             json: true
         }
-        rp(options)
-        .then((response) => { resolve(response.token); });
+		rp(options)
+		.then((response) => {
+			if (response.errorcode) { reject(response); } 
+			else { resolve(response.token); }
+		});
     });
 }
 
-exports.createUser = (url, token, wsfunction, userss, callback) => {
-	return new Promise((resolve) => {
+exports.createUser = (url, token, wsfunction, users, callback) => {
+	return new Promise((resolve, reject) => {
 		var options = {
 			uri: url,
 			method: 'POST',
@@ -31,39 +34,56 @@ exports.createUser = (url, token, wsfunction, userss, callback) => {
 				wsfunction: wsfunction,
 				moodlewsrestformat: 'json'                
 			},	form: {
-				users: userss
+				users: users
 			},	json: true
 		}
 		rp(options)
 		.then((response) => {
-			 resolve(response.body); 
+			if (response.errorcode) { reject(response); } 
+			else { resolve(response.body); }
 		});
 	});
-    // request.post(url, (error, response, body) => {
-    //     callback(JSON.parse(response.body));
-    // }).qs({
-    //     'wstoken': token,
-    //     'wsfunction': wsfunction,
-    //     'moodlewsrestformat': 'json'
-    // }).form({users: users});
 }
 
 exports.getUsers = (url, token, wsfunction, criteria, callback) => {
-    request.post(url, (error, response, body) => {
-        callback(JSON.parse(response.body));
-    }).qs({
-        'wstoken': token,
-        'wsfunction': wsfunction,
-        'moodlewsrestformat': 'json'
-    }).form({criteria: criteria});
+	return new Promise((resolve, reject) => {
+		var options = {
+			uri: url,
+			method: 'POST',
+			qs: {
+				wstoken: token,
+				wsfunction: wsfunction,
+				moodlewsrestformat: 'json'                
+			},	form: {
+				criteria: criteria
+			},	json: true 
+		}
+		rp(options)
+		.then((response) => {
+			if (response.errorcode) { reject(response); } 
+			else { resolve(response); }
+		});
+	});
 }
 
 exports.enrolUser = (url, token, wsfunction, enrol, callback) => {
-    request.post(url, (error, response, body) => {
-        callback(JSON.parse(response.body));
-    }).qs({
-        'wstoken': token,
-        'wsfunction': wsfunction,
-        'moodlewsrestformat': 'json'
-    }).form({enrolments: enrol});
+	return new Promise((resolve, reject) => {
+		var options = {
+			uri: url,
+			method: 'POST',
+			qs: {
+				wstoken: token,
+				wsfunction: wsfunction,
+				moodlewsrestformat: 'json'                
+			},	form: {
+				enrolments: enrol
+			},	json: true 
+		}
+		rp(options)
+		.then((response) => {
+			if (response && response.errorcode) {
+				 reject(response); } 
+			else { resolve(response); }
+		});
+	});
 }

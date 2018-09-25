@@ -19,7 +19,8 @@ exports.getToken = (req, res, next) => {
     let moodleUrl = query.url + tokenSufixUrl;
 
     controller.getToken(moodleUrl, user, pass, service)
-    .then((data) => { res.json(data);  });
+    .then((data) => { res.json(data); })
+    .catch((data) => { res.json(data); });
 }
 
 exports.createUser = (req, res, next) => {
@@ -31,14 +32,8 @@ exports.createUser = (req, res, next) => {
     let users = req.body;
 
     controller.createUser(moodleUrl, token, functionName, users)
-    .then((data) => {
-         res.json(data); 
-    });
-    // controller.createUser(moodleUrl, token, functionName, users,
-    //     (ret) => {
-    //         res.json(ret);
-    //     }    
-    // );
+    .then((data) => { res.json(data); })
+    .catch((data) => { res.json(data); });
 }
 
 exports.getUsers = (req, res, next) => {
@@ -49,11 +44,9 @@ exports.getUsers = (req, res, next) => {
     let functionName = wsfunctionMoodle['getUsers'];
     let criteria = req.body;
 
-    controller.getUsers(moodleUrl, token, functionName, criteria,
-        (ret) => {
-            res.json(ret);
-        }    
-    );
+    controller.getUsers(moodleUrl, token, functionName, criteria)
+    .then((data) => { res.json(data); })
+    .catch((data) => { res.json(data); });
 }
 
 exports.enrolUser = (req, res, next) => {
@@ -64,13 +57,7 @@ exports.enrolUser = (req, res, next) => {
     let functionName = wsfunctionMoodle['enrolUser'];
     let enrol = req.body;
 
-    controller.enrolUser(moodleUrl, token, functionName, enrol,
-        (ret) => {
-            res.json(ret);
-        }    
-    );
-}
-
-exports.teste = function(teste) {
-    console.log("AEEEE");
+    controller.enrolUser(moodleUrl, token, functionName, enrol)
+    .then((data) => { res.json(data); })
+    .catch((data) => { res.json(data); });
 }
