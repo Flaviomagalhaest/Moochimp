@@ -18,11 +18,8 @@ exports.getToken = (req, res, next) => {
     let service = query.service;
     let moodleUrl = query.url + tokenSufixUrl;
 
-    controller.getToken(moodleUrl, user, pass, service, 
-        (ret) => {
-            res.json(ret);
-        }
-    );     
+    controller.getToken(moodleUrl, user, pass, service)
+    .then((data) => { res.json(data);  });
 }
 
 exports.createUser = (req, res, next) => {
@@ -32,12 +29,16 @@ exports.createUser = (req, res, next) => {
     let token = query.token;
     let functionName = wsfunctionMoodle['createUser'];
     let users = req.body;
-    
-    controller.createUser(moodleUrl, token, functionName, users,
-        (ret) => {
-            res.json(ret);
-        }    
-    );
+
+    controller.createUser(moodleUrl, token, functionName, users)
+    .then((data) => {
+         res.json(data); 
+    });
+    // controller.createUser(moodleUrl, token, functionName, users,
+    //     (ret) => {
+    //         res.json(ret);
+    //     }    
+    // );
 }
 
 exports.getUsers = (req, res, next) => {
