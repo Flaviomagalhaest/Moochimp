@@ -2,17 +2,28 @@
 const listSufix = 'lists/';
 const memberSufix = '/members'
 const request = require('request');
+const rp = require('request-promise-native');
 
 exports.getTotalUsers = (url, token, listId, callback) => {
-    let fields = 'stats.member_count,stats.unsubscribe_count,stats.cleaned_count';
-    url = url + listSufix + listId;
-    token = 'apikey ' + token;
-    request.get(url, (error, response, body) => {
-        callback(JSON.parse(body));
-    }).qs({
-        'fields': fields
-    }).setHeader('Authorization',token);
-}
+		new Promise((resolve, reject) => {
+			let fields = 'stats.member_count,stats.unsubscribe_count,stats.cleaned_count';
+			url = url + listSufix + listId;
+			token = 'apikey ' + token;
+			
+			var options = {
+				uri: url,
+				qs: {
+					'fields': fields
+				}, headers: {
+					'Authorization': token       
+				},	json: true
+			}
+			rp(options)
+			.then((response) => {
+				resolve(response);
+			});
+		});
+	}
 
 exports.getInfoUsers = (params, listId, callback) => {
     let url = params['url'].concat(listSufix, listId, memberSufix)

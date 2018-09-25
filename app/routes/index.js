@@ -25,9 +25,6 @@ module.exports = function(app) {
     app.route('/moodle/enrolUser')
         .post(moodle.enrolUser);        
 
-    app.route('/moodle/teste')
-        .get(moodle.teste);
-
     //Mailchimp Services
     app.route('/mailchimp/getTotalUsers')
         .get(mailchimp.getTotalUsers);

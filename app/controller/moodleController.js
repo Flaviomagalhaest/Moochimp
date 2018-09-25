@@ -3,7 +3,6 @@
 const tokenSufixUrl = '/login/token.php';
 const restSufixUrl = '/webservice/rest/server.php';
 const rp = require('request-promise-native');
-const request = require('request');
 
 exports.getToken = (url, user, pass, service, callback) => {
     return new Promise((resolve) => {

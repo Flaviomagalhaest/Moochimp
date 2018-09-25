@@ -7,11 +7,9 @@ exports.getTotalUsers = (req, res, next) => {
 
     let mailchimpUrl = query.url;
     let token = query.token;
-    controller.getTotalUsers(mailchimpUrl, token, query.listId,
-        (ret) => {
-            res.json(ret);
-        }
-    );
+    controller.getTotalUsers(mailchimpUrl, token, query.listId)
+    .then((data) => { res.json(data); })
+    .catch((data) => {});
 }
 
 exports.getInfoUsers = (req, res, next) => {
