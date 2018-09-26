@@ -9,7 +9,7 @@ exports.getTotalUsers = (req, res, next) => {
     let token = query.token;
     controller.getTotalUsers(mailchimpUrl, token, query.listId)
     .then((data) => { res.json(data); })
-    .catch((data) => {});
+    .catch((data) => { res.json(data); });
 }
 
 exports.getInfoUsers = (req, res, next) => {
@@ -18,16 +18,14 @@ exports.getInfoUsers = (req, res, next) => {
     let params = {
         url: query.url,
         token: query.token,
+        listId: query.listId,
         count: query.count,
         offset: query.offset,
         fields: query.fields,
         exclude_fields: query.exclude_fields,
         since_timestamp_opt: query.since_timestamp_opt
     }
-    var a = 1;
-    controller.getInfoUsers(params, query.listId,
-        (ret) => {
-            res.json(ret);
-        }
-    );
+    controller.getInfoUsers(params)
+    .then((data) => { res.json(data); })
+    .catch((data) => { res.json(data); });
 }
