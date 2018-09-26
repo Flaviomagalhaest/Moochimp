@@ -34,6 +34,9 @@ exports.createUser = (req, res, next) => {
 		body: req.body[0]['moodle']
 	}
 
-	let listMailchimp = controller.createUser(mailchimpParam);
+	controller.createUser(mailchimpParam)
+	.then((data) => {
+		let listMailchimp = data;
+	});
 	var a = 1;
 }

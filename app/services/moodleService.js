@@ -1,5 +1,5 @@
 "use strict";
-const restSufixUrl = '/webservice/rest/server.php';
+const restSufixUrl = 'webservice/rest/server.php';
 const controller = require('../controller/moodleController');
 const url = require('url');
 
