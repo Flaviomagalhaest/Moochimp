@@ -42,7 +42,7 @@ exports.getInfoUsers = (params) => {
 			},	json: true
 		}
 		rp(options)
-		.then((response) => { resolve(response); })
+		.then((response) => { resolve(response.members); })
 		.catch((response) => { reject(response.error); });
 	});
 }

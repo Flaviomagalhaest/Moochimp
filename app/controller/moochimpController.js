@@ -1,5 +1,5 @@
 const mailchimpController = require('../controller/mailchimpController');
-const totalRequisicao = 1;	//Max number of users in each requisition
+const totalRequisicao = 2;	//Max number of users in each requisition
 exports.readQueue = (conn) => {
     conn.createChannel(function(err, ch) {
         var q = 'teste_queue';
@@ -24,7 +24,8 @@ exports.createUser = (param) => {
 	return new Promise((resolve, reject) => {
 		mailchimpController.getTotalUsers(param['url'], param['token'], param['listId'])
 		.then((data) => {
-			let total = Object.values(data.stats).reduce((accum, curr) => accum + curr);
+			let total = Object.values(data.stats)
+			.reduce((accum, curr) => accum + curr);
 			return returnListUserMailchimp(total, param); })
 		.then((listaMailChimp) => {
 			resolve(listaMailChimp);
@@ -48,26 +49,30 @@ returnListUserMailchimp = (total, param) => {
 	} else {
 		return mailchimpController.getInfoUsers(params);
 	}
-	var a = "a";
 }
 
 //Make list of users doing multiple-calls in API respecting number max of users per call
 getInfoUsersPerCall = (total, params) => {
 	return new Promise((resolve, reject) => {
 		let count = 0;
-		let members = [];
 		let promises = [];
-		while (total >= count) {
+		while (total > count) {
 			params['offset'] = count
 			promises.push(mailchimpController.getInfoUsers(params));
 			count = count + totalRequisicao;
 		}
 		Promise.all(promises)
 		.then((data) => {
-			data.reduce((accum, curr) => { 
-				members.push(curr.members);
-			});
+			let members = transformInListMembers(data);
 			resolve(members);
 		});
 	});
+}
+//Receives list of object members. Respond list of users filtred
+transformInListMembers = (members) => {
+	return members
+	.filter((member) => { 
+		return member.length > 0 
+	})
+	.map((m) => { return m });
 }

@@ -38,5 +38,5 @@ exports.createUser = (req, res, next) => {
 	.then((data) => {
 		let listMailchimp = data;
 	});
-	var a = 1;
+	res.json("");
 }
