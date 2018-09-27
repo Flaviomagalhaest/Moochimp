@@ -1,5 +1,5 @@
 const mailchimpController = require('../controller/mailchimpController');
-const totalRequisicao = 2;	//Max number of users in each requisition
+const totalRequisicao = 6;	//Max number of users in each requisition
 exports.readQueue = (conn) => {
     conn.createChannel(function(err, ch) {
         var q = 'teste_queue';
@@ -26,6 +26,7 @@ exports.createUser = (param) => {
 		.then((data) => {
 			let total = Object.values(data.stats)
 			.reduce((accum, curr) => accum + curr);
+
 			return returnListUserMailchimp(total, param); })
 		.then((listaMailChimp) => {
 			resolve(listaMailChimp);
@@ -70,9 +71,15 @@ getInfoUsersPerCall = (total, params) => {
 }
 //Receives list of object members. Respond list of users filtred
 transformInListMembers = (members) => {
-	return members
-	.filter((member) => { 
+	let list = members.filter(member => { 
 		return member.length > 0 
 	})
-	.map((m) => { return m });
+	listReturn = [];
+	return cleaningList(list);
+}
+cleaningList = (list) => {
+	list.map(l => {
+		(Array.isArray(l) ? cleaningList(l) : listReturn.push(l));
+	})
+	return listReturn.filter(f => {return (f)});
 }
