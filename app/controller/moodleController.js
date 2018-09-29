@@ -4,7 +4,13 @@ const tokenSufixUrl = '/login/token.php';
 const restSufixUrl = '/webservice/rest/server.php';
 const rp = require('request-promise-native');
 
-exports.getToken = (url, user, pass, service, callback) => {
+const wsfunctionMoodle = {
+	createUser: 'core_user_create_users',
+	getUsers: 'core_user_get_users',
+	enrolUser: 'enrol_manual_enrol_users'
+}
+
+exports.getToken = (url, user, pass, service) => {
     return new Promise((resolve) => {
         var options = {
             uri: url,
@@ -23,14 +29,14 @@ exports.getToken = (url, user, pass, service, callback) => {
     });
 }
 
-exports.createUser = (url, token, wsfunction, users, callback) => {
+exports.createUser = (url, token, users) => {
 	return new Promise((resolve, reject) => {
 		var options = {
 			uri: url,
 			method: 'POST',
 			qs: {
 				wstoken: token,
-				wsfunction: wsfunction,
+				wsfunction: wsfunctionMoodle.createUser,
 				moodlewsrestformat: 'json'                
 			},	form: {
 				users: users
@@ -44,14 +50,14 @@ exports.createUser = (url, token, wsfunction, users, callback) => {
 	});
 }
 
-exports.getUsers = (url, token, wsfunction, criteria, callback) => {
+exports.getUsers = (url, token, criteria) => {
 	return new Promise((resolve, reject) => {
 		var options = {
 			uri: url,
 			method: 'POST',
 			qs: {
 				wstoken: token,
-				wsfunction: wsfunction,
+				wsfunction: wsfunctionMoodle.getUsers,
 				moodlewsrestformat: 'json'                
 			},	form: {
 				criteria: criteria
@@ -65,14 +71,14 @@ exports.getUsers = (url, token, wsfunction, criteria, callback) => {
 	});
 }
 
-exports.enrolUser = (url, token, wsfunction, enrol, callback) => {
+exports.enrolUser = (url, token, enrol) => {
 	return new Promise((resolve, reject) => {
 		var options = {
 			uri: url,
 			method: 'POST',
 			qs: {
 				wstoken: token,
-				wsfunction: wsfunction,
+				wsfunction: wsfunctionMoodle.enrolUser,
 				moodlewsrestformat: 'json'                
 			},	form: {
 				enrolments: enrol

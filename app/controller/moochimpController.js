@@ -1,5 +1,7 @@
 const mailchimpController = require('../controller/mailchimpController');
-const totalRequisicao = 6;	//Max number of users in each requisition
+const moodleController = require('../controller/moodleController');
+const amqp = require('amqplib/callback_api');
+const totalRequisicao = 50;	//Max number of users in each requisition
 exports.readQueue = (conn) => {
     conn.createChannel(function(err, ch) {
         var q = 'teste_queue';
@@ -20,30 +22,52 @@ exports.readQueue = (conn) => {
       });
 }
 
+exports.sendToQueue = (param, list) => {
+	return new Promise((resolve, reject) => {
+		amqp.connect('amqp://localhost', function(err, conn) { 
+			conn.createChannel(function(err, ch) {
+			  var q = 'create_user_queue';
+			  console.log("Sending "+list.length+" members in list to queue");
+				
+			  list.map(l => {
+					var msg = {param, l};					
+					ch.assertQueue(q, {durable: true});
+					ch.sendToQueue(q, new Buffer(msg), {persistent: true});
+				});
+			  console.log("Sended to queue");
+			  resolve(true);
+			}); 
+		 });
+	})    
+ }
+
 exports.createUser = (param) => {
 	return new Promise((resolve, reject) => {
-		mailchimpController.getTotalUsers(param['url'], param['token'], param['listId'])
+		mailchimpController.getTotalUsers(param.mailchimp.url, param.mailchimp.token, 
+			param.mailchimp.listId)
 		.then((data) => {
 			let total = Object.values(data.stats)
 			.reduce((accum, curr) => accum + curr);
-
 			return returnListUserMailchimp(total, param); })
 		.then((listaMailChimp) => {
 			resolve(listaMailChimp);
+			// 	return sendToQueue(param.moodle, listaMailChimp) })
+		// .then((flag) => {
+		// 	resolve(flag);
 		});
 	});
 }
 
 returnListUserMailchimp = (total, param) => {
 	params = {
-		url: param['url'],
+		url: param.mailchimp.url,
 		count: totalRequisicao,
 		offset: 0,
-		listId: param['listId'],
-		fields: param.body['fields'],
-		exclude_fields: param.body['exclude_fields'],
-		since_timestamp_opt: param.body['since_timestamp_opt'],
-		token: param['token']
+		listId: param.mailchimp.listId,
+		fields: param.mailchimp.fields,
+		exclude_fields: param.mailchimp.exclude_fields,
+		since_timestamp_opt: param.mailchimp.since_timestamp_opt,
+		token: param.mailchimp.token
 	}
 	if (total > totalRequisicao) {
 		return getInfoUsersPerCall(total, params);
