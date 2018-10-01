@@ -14,6 +14,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //RabbitMQ
 amqp.connect('amqp://localhost', function(err, conn) {
-    let controller = require('./app/controller/moochimpController');
+    let controller = require('./app/queue/consumer');
     controller.readQueue(conn);
 })

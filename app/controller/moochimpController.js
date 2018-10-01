@@ -1,45 +1,6 @@
 const mailchimpController = require('../controller/mailchimpController');
 const moodleController = require('../controller/moodleController');
-const amqp = require('amqplib/callback_api');
 const totalRequisicao = 50;	//Max number of users in each requisition
-exports.readQueue = (conn) => {
-    conn.createChannel(function(err, ch) {
-        var q = 'teste_queue';
-    
-        ch.assertQueue(q, {durable: true});
-        ch.prefetch(1);
-        console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q);
-        ch.consume(q, function(msg) {
-          var secs = msg.content.toString().split('.').length - 1;
-    
-          console.log(" [x] Received %s", msg.content.toString());
-          ch.ack(msg);
-        //   setTimeout(function() {
-        //     console.log(" [x] Done");
-        //     ch.ack(msg);
-        //   }, secs * 1000);
-        }, {noAck: false});
-      });
-}
-
-exports.sendToQueue = (param, list) => {
-	return new Promise((resolve, reject) => {
-		amqp.connect('amqp://localhost', function(err, conn) { 
-			conn.createChannel(function(err, ch) {
-			  var q = 'create_user_queue';
-			  console.log("Sending "+list.length+" members in list to queue");
-				
-			  list.map(l => {
-					var msg = {param, l};					
-					ch.assertQueue(q, {durable: true});
-					ch.sendToQueue(q, new Buffer(msg), {persistent: true});
-				});
-			  console.log("Sended to queue");
-			  resolve(true);
-			}); 
-		 });
-	})    
- }
 
 exports.createUser = (param) => {
 	return new Promise((resolve, reject) => {
@@ -50,7 +11,7 @@ exports.createUser = (param) => {
 			.reduce((accum, curr) => accum + curr);
 			return returnListUserMailchimp(total, param)})
 		.then((listMailChimp) => {
-			let listToQueue = buildObjectUser(listMailChimp);
+			let listToQueue = exports.buildObjectUser(listMailChimp);
 			resolve(listMailChimp);
 			// 	return sendToQueue(param.moodle, listaMailChimp) })
 		// .then((flag) => {
@@ -59,18 +20,18 @@ exports.createUser = (param) => {
 	});
 }
 
-buildObjectUser = (listUsers) => {
+exports.buildObjectUser = (listUsers) => {
 	let moodleParams = params.moodle.body;
 	let listToQueue = []
-	listUsers.map(user => {
-		let u = {};
-		Object.assign(u, moodleParams);
-		Object.keys(moodleParams).forEach(m => {
-			var b = "";
+	listUsers.map(userMailchimp => {
+		let user = {};
+		Object.assign(user, moodleParams);
+		Object.keys(moodleParams).forEach(param => {
+			user[param] = exports.getMailchimpData(moodleParams[param], userMailchimp);
 		})
-		var a = "";
+		listToQueue.push(user);
 	})
-	var a = params.moodle.body;
+	return listToQueue;
 }
 
 // Receive moodle argument and moochimp user. Prepare moodle object with user params
