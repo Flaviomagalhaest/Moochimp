@@ -48,9 +48,10 @@ exports.createUser = (param) => {
 		.then((data) => {
 			let total = Object.values(data.stats)
 			.reduce((accum, curr) => accum + curr);
-			return returnListUserMailchimp(total, param); })
-		.then((listaMailChimp) => {
-			resolve(listaMailChimp);
+			return returnListUserMailchimp(total, param)})
+		.then((listMailChimp) => {
+			let listToQueue = buildObjectUser(listMailChimp);
+			resolve(listMailChimp);
 			// 	return sendToQueue(param.moodle, listaMailChimp) })
 		// .then((flag) => {
 		// 	resolve(flag);
@@ -58,6 +59,50 @@ exports.createUser = (param) => {
 	});
 }
 
+buildObjectUser = (listUsers) => {
+	let moodleParams = params.moodle.body;
+	let listToQueue = []
+	listUsers.map(user => {
+		let u = {};
+		Object.assign(u, moodleParams);
+		Object.keys(moodleParams).forEach(m => {
+			var b = "";
+		})
+		var a = "";
+	})
+	var a = params.moodle.body;
+}
+
+// Receive moodle argument and moochimp user. Prepare moodle object with user params
+exports.getMailchimpData = (arg, user) => {
+   let result = "";
+   if (arg instanceof Object && arg instanceof Array) {
+      return getMailchimpDataList(arg, result, user);
+	} else if (arg instanceof Object) {
+		return getMailchimpDataObject(arg, user)
+	} else {
+		return arg;
+	}
+}
+
+// Read params in list and add then
+getMailchimpDataList = (arg, result, user) => {
+   arg.map(a => {
+      result += exports.getMailchimpData(a, user);
+   });
+   return result;
+}
+
+// Transform object json to get params in mailchimp user
+getMailchimpDataObject = (arg, user) => {
+   return Object.keys(arg).map(a => {
+      if (arg[a] == "") {
+         return user[a];
+      } else {
+         return exports.getMailchimpData(arg[a],user[a]);
+      }
+   })[0];
+}
 returnListUserMailchimp = (total, param) => {
 	params = {
 		url: param.mailchimp.url,
@@ -67,7 +112,8 @@ returnListUserMailchimp = (total, param) => {
 		fields: param.mailchimp.fields,
 		exclude_fields: param.mailchimp.exclude_fields,
 		since_timestamp_opt: param.mailchimp.since_timestamp_opt,
-		token: param.mailchimp.token
+		token: param.mailchimp.token,
+		moodle: param.moodle
 	}
 	if (total > totalRequisicao) {
 		return getInfoUsersPerCall(total, params);
