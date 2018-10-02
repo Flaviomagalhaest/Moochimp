@@ -1,5 +1,5 @@
 const amqp = require('amqplib/callback_api');
-exports.sendToQueue = (param, list) => {
+exports.sendToQueueCreateUser = (param, list) => {
 	return new Promise((resolve, reject) => {
 		amqp.connect('amqp://localhost', function(err, conn) { 
 			conn.createChannel(function(err, ch) {

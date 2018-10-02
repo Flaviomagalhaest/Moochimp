@@ -1,20 +1,26 @@
-const amqp = require('amqplib/callback_api');
-exports.readQueue = (conn) => {
+const moodleController = require('../controller/moodleController');
+
+
+exports.readQueueCreateUser = (conn) => {
 	conn.createChannel(function(err, ch) {
-			var q = 'teste_queue';
+			var q = 'create_user_queue';
 	
 			ch.assertQueue(q, {durable: true});
 			ch.prefetch(1);
-			console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q);
 			ch.consume(q, function(msg) {
-				var secs = msg.content.toString().split('.').length - 1;
-	
-				console.log(" [x] Received %s", msg.content.toString());
-				ch.ack(msg);
-			//   setTimeout(function() {
-			//     console.log(" [x] Done");
-			//     ch.ack(msg);
-			//   }, secs * 1000);
+				let user = JSON.parse(msg.content.toString()).user;
+				let param = JSON.parse(msg.content.toString()).param;
+				console.log(" Received user ", user.username);
+				moodleController.createUser(param.url, param.token, [user])
+				.then((result) => { 
+					console.log("user created successfully");
+					console.log(result);
+					ch.ack(msg);
+				})
+				.catch((result) => {
+					console.log(result);
+					ch.ack(msg);
+				});
 			}, {noAck: false});
 		});
 }
