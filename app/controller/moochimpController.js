@@ -29,7 +29,11 @@ exports.buildObjectUser = (listUsers) => {
 		let user = {};
 		Object.assign(user, moodleParams);
 		Object.keys(moodleParams).forEach(param => {
-			user[param] = exports.getMailchimpData(moodleParams[param], userMailchimp);
+			if (param == "customfields") {
+				user[param] = moodleParams[param];
+			} else {
+				user[param] = exports.getMailchimpData(moodleParams[param], userMailchimp);
+			}
 		})
 		listToQueue.push(user);
 	})
