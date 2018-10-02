@@ -2,6 +2,12 @@ const mailchimpController = require('../controller/mailchimpController');
 const producer = require('../queue/producer');
 const totalRequisicao = 50;	//Max number of users in each requisition
 
+exports.createAndEnrolUser = (param) => {
+	controller.createUser(param)
+	.then((result) => {
+		
+	});
+}
 exports.createUser = (param) => {
 	return new Promise((resolve, reject) => {
 		mailchimpController.getTotalUsers(param.mailchimp.url, param.mailchimp.token, 
