@@ -2,6 +2,7 @@ module.exports = function(app) {
 
     const moodle = require('../services/moodleService');
     const mailchimp = require('../services/mailchimpService');
+    const moochimp = require('../services/moochimpService');
     const bodyParser = require('body-parser');
 
     //Handler body in post requisitions
@@ -20,9 +21,9 @@ module.exports = function(app) {
 
     app.route('/moodle/getUsers')
         .post(moodle.getUsers);
-        
-    app.route('/moodle/teste')
-        .get(moodle.teste);
+    
+    app.route('/moodle/enrolUser')
+        .post(moodle.enrolUser);        
 
     //Mailchimp Services
     app.route('/mailchimp/getTotalUsers')
@@ -30,4 +31,11 @@ module.exports = function(app) {
 
     app.route('/mailchimp/getInfoUsers')
         .post(mailchimp.getInfoUsers);        
+
+    //Moochimp Services
+    app.route('/moochimp/sendToQueue')
+        .get(moochimp.sendToQueue);
+
+    app.route('/moochimp/createUser')
+        .post(moochimp.createUser);
 }

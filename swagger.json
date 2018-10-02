@@ -90,7 +90,7 @@
           "Moodle"
         ],
         "summary": "creater new user in Moodle",
-        "operationId": "createUser",
+        "operationId": "createUserMoodle",
         "produces": [
           "application/json"
         ],
@@ -106,13 +106,6 @@
             "name": "token",
             "in": "query",
             "description": "token of service ",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "functionName",
-            "in": "query",
-            "description": "moodle's webapi function name",
             "required": true,
             "type": "string"
           },
@@ -165,13 +158,6 @@
             "type": "string"
           },
           {
-            "name": "functionName",
-            "in": "query",
-            "description": "moodle's webapi function name",
-            "required": true,
-            "type": "string"
-          },
-          {
             "in": "body",
             "name": "body",
             "description": "Criteria of search",
@@ -180,6 +166,54 @@
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Criteria"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/moodle/enrolUser": {
+      "post": {
+        "tags": [
+          "Moodle"
+        ],
+        "summary": "Enrol user in course",
+        "operationId": "enrolUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "description": "Moodle's url",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "description": "token of service ",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "List of object user",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Enrol"
               }
             }
           }
@@ -314,11 +348,101 @@
           }
         }
       }
+    },
+    "/moochimp/sendToQueue": {
+      "get": {
+        "tags": [
+          "Moochimp"
+        ],
+        "summary": "Test queue",
+        "operationId": "sendToQueue",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/moochimp/createUser": {
+      "post": {
+        "tags": [
+          "Moochimp"
+        ],
+        "summary": "Search in list of Mailchimp and create users in Moodle",
+        "operationId": "createUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "mailchimpUrl",
+            "in": "query",
+            "description": "Url of Mailchimp",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "mailchimpListId",
+            "in": "query",
+            "description": "ID of list in Mailchimp",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "mailchimpToken",
+            "in": "query",
+            "description": "Token of Mailchimp API",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "moodleUrl",
+            "in": "query",
+            "description": "Url of Moodle",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "moodleToken",
+            "in": "query",
+            "description": "Token of Moodle webservice",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Object of request. __description of variables in Model__",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/CreateUserReq"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
     "User": {
       "type": "object",
+      "description": "Mapping which mailchimp parameters will used to create moodle user. Example: \"username: members.name\"",
       "properties": {
         "username": {
           "type": "string"
@@ -333,6 +457,24 @@
           "type": "string"
         },
         "email": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "User"
+      }
+    },
+    "Enrol": {
+      "type": "object",
+      "properties": {
+        "roleid": {
+          "type": "string",
+          "description": "1 - manager / 2 - Course creator / 3 - Teacher / 4 - Moderator / 5 - Student / 6 - Guest / 7 - User / 8 - Frontpage User"
+        },
+        "userid": {
+          "type": "string"
+        },
+        "courseid": {
           "type": "string"
         }
       },
@@ -367,6 +509,33 @@
         },
         "value": {
           "type": "string"
+        }
+      }
+    },
+    "CreateUserReq": {
+      "type": "object",
+      "properties": {
+        "mailchimp": {
+          "$ref": "#/definitions/MailChimpCreateUserReq"
+        },
+        "moodle": {
+          "$ref": "#/definitions/User"
+        }
+      }
+    },
+    "MailChimpCreateUserReq": {
+      "type": "object",
+      "properties": {
+        "since_timestamp_opt": {
+          "type": "string"
+        },
+        "fields": {
+          "type": "string",
+          "description": "declare fields on response with comma separate (example: members.email_address, members.id)"
+        },
+        "exclude_fields": {
+          "type": "string",
+          "description": "declare fields to exclude on response with comma separate (example: members.email_address, members.id)"
         }
       },
       "xml": {

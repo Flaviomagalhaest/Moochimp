@@ -3,38 +3,29 @@ const controller = require('../controller/mailchimpController');
 const url = require('url');
 
 exports.getTotalUsers = (req, res, next) => {
-    const listSufix = 'lists/';
     let query = url.parse(req.url, true).query;
 
-    let mailchimpUrl = query.url + listSufix + query.listId;
-    let token = 'apikey ' + query.token;
-    let fields = 'stats.member_count,stats.unsubscribe_count,stats.cleaned_count';
-
-    controller.getTotalUsers(mailchimpUrl, token, fields, 
-        (ret) => {
-            res.json(ret);
-        }
-    );
+    let mailchimpUrl = query.url;
+    let token = query.token;
+    controller.getTotalUsers(mailchimpUrl, token, query.listId)
+    .then((data) => { res.json(data); })
+    .catch((data) => { res.json(data); });
 }
 
 exports.getInfoUsers = (req, res, next) => {
-    const listSufix = 'lists/';
-    const memberSufix = '/members'
     let query = url.parse(req.url, true).query;
     
     let params = {
-        url: query.url.concat(listSufix, query.listId, memberSufix),
-        token: 'apikey ' + query.token,
+        url: query.url,
+        token: query.token,
+        listId: query.listId,
         count: query.count,
         offset: query.offset,
         fields: query.fields,
         exclude_fields: query.exclude_fields,
         since_timestamp_opt: query.since_timestamp_opt
     }
-    var a = 1;
-    controller.getInfoUsers(params, 
-        (ret) => {
-            res.json(ret);
-        }
-    );
+    controller.getInfoUsers(params)
+    .then((data) => { res.json(data); })
+    .catch((data) => { res.json(data); });
 }
