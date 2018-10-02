@@ -43,7 +43,9 @@ exports.createUser = (req, res, next) => {
 
 	controller.createUser(param)
 	.then((data) => {
-		let listMailchimp = data;
+		res.json(data);
+	})
+	.catch((error) => {
+		res.json(error);
 	});
-	res.json("");
 }

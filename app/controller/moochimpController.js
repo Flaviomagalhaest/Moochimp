@@ -16,9 +16,9 @@ exports.createUser = (param) => {
 		.then((confirm) => {
 			(confirm) ? resolve(confirm) : reject(confirm);
 		 })
-			// 	return sendToQueue(param.moodle, listaMailChimp) })
-		// .then((flag) => {
-		// 	resolve(flag);
+		.catch((error) => { 
+			reject(error); 
+		});
 	});
 }
 
