@@ -20,7 +20,7 @@ it('return email "test@outlook.com"', () => {
 it('return email "test@outlook.com"', () => {
    var users = {"id":"883162de08ec1bd75d151e6d4124b8ea","email_address":"test@outlook.com","merge_fields":{"FNAME":"Leon","LNAME":"Freitas","ADDRESS":"","PHONE":"","MMERGE5":"","MMERGE6":"1992-02-22","MMERGE7":"9999999","MMERGE8":"","MMERGE9":"Desenvolvedor","MMERGE10":"","MMERGE11":"","MMERGE12":"2","MMERGE13":"2018-09-25 14:09:58"}};
    var list = {"merge_fields":{"FNAME":""}};
-   expect(controller.getMailchimpData(list, users)).toBe("Leon");
+   expect(controller.getMailchimpData(list, users)).toBe("leon");
 });
 
 it('return email "test@outlook.com"', () => {
