@@ -1,4 +1,5 @@
 const moodleController = require('../controller/moodleController');
+const producer = require('../queue/producer');
 
 
 exports.readQueueCreateUser = (conn) => {
@@ -19,6 +20,7 @@ exports.readQueueCreateUser = (conn) => {
 				})
 				.catch((result) => {
 					console.log(result);
+					producer.sendToFailQueue(user, result);
 					ch.ack(msg);
 				});
 			}, {noAck: false});
