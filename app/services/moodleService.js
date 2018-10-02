@@ -1,5 +1,4 @@
 "use strict";
-const restSufixUrl = 'webservice/rest/server.php';
 const controller = require('../controller/moodleController');
 const url = require('url');
 
@@ -10,7 +9,7 @@ exports.getToken = (req, res, next) => {
     let user = query.username;
     let pass = query.password;    
     let service = query.service;
-    let moodleUrl = query.url + tokenSufixUrl;
+    let moodleUrl = query.url;
 
     controller.getToken(moodleUrl, user, pass, service)
     .then((data) => { res.json(data); })
@@ -20,7 +19,7 @@ exports.getToken = (req, res, next) => {
 exports.createUser = (req, res, next) => {
     let query = url.parse(req.url, true).query;
 
-    let moodleUrl = query.url + restSufixUrl;
+    let moodleUrl = query.url;
     let token = query.token;
     let users = req.body;
 
@@ -32,7 +31,7 @@ exports.createUser = (req, res, next) => {
 exports.getUsers = (req, res, next) => {
     let query = url.parse(req.url, true).query;
 
-    let moodleUrl = query.url + restSufixUrl;
+    let moodleUrl = query.url;
     let token = query.token;
     let criteria = req.body;
 
@@ -44,7 +43,7 @@ exports.getUsers = (req, res, next) => {
 exports.enrolUser = (req, res, next) => {
     let query = url.parse(req.url, true).query;
 
-    let moodleUrl = query.url + restSufixUrl;
+    let moodleUrl = query.url;
     let token = query.token;
     let enrol = req.body;
 

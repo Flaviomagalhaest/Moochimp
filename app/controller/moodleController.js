@@ -1,8 +1,8 @@
 "use strict";
-
-const tokenSufixUrl = '/login/token.php';
-const restSufixUrl = '/webservice/rest/server.php';
 const rp = require('request-promise-native');
+const tokenSufixUrl = 'login/token.php';
+const restSufixUrl = 'webservice/rest/server.php';
+
 
 const wsfunctionMoodle = {
 	createUser: 'core_user_create_users',
@@ -30,6 +30,7 @@ exports.getToken = (url, user, pass, service) => {
 }
 
 exports.createUser = (url, token, users) => {
+	url += restSufixUrl;
 	return new Promise((resolve, reject) => {
 		var options = {
 			uri: url,
@@ -44,13 +45,14 @@ exports.createUser = (url, token, users) => {
 		}
 		rp(options)
 		.then((response) => {
-			if (response.errorcode) { reject(response); } 
-			else { resolve(response.body); }
+			if (response.errorcode || response.error) { reject(response); } 
+			else { resolve(response); }
 		});
 	});
 }
 
 exports.getUsers = (url, token, criteria) => {
+	url += restSufixUrl;
 	return new Promise((resolve, reject) => {
 		var options = {
 			uri: url,
@@ -72,6 +74,7 @@ exports.getUsers = (url, token, criteria) => {
 }
 
 exports.enrolUser = (url, token, enrol) => {
+	url += restSufixUrl;
 	return new Promise((resolve, reject) => {
 		var options = {
 			uri: url,

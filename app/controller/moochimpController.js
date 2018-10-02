@@ -1,5 +1,5 @@
 const mailchimpController = require('../controller/mailchimpController');
-const moodleController = require('../controller/moodleController');
+const producer = require('../queue/producer');
 const totalRequisicao = 50;	//Max number of users in each requisition
 
 exports.createUser = (param) => {
@@ -7,16 +7,18 @@ exports.createUser = (param) => {
 		mailchimpController.getTotalUsers(param.mailchimp.url, param.mailchimp.token, 
 			param.mailchimp.listId)
 		.then((data) => {
-			let total = Object.values(data.stats)
-			.reduce((accum, curr) => accum + curr);
+			let total = Object.values(data.stats).reduce((accum, curr) => accum + curr);
 			return returnListUserMailchimp(total, param)})
 		.then((listMailChimp) => {
-			let listToQueue = exports.buildObjectUser(listMailChimp);
-			resolve(listMailChimp);
+			return(exports.buildObjectUser(listMailChimp)) })
+		.then((listUser) => {
+			producer.sendToQueueCreateUser(params.moodle, listUser)})
+		.then((confirm) => {
+			(confirm) ? resolve(confirm) : reject(confirm);
+		 })
 			// 	return sendToQueue(param.moodle, listaMailChimp) })
 		// .then((flag) => {
 		// 	resolve(flag);
-		});
 	});
 }
 
@@ -58,7 +60,7 @@ getMailchimpDataList = (arg, result, user) => {
 getMailchimpDataObject = (arg, user) => {
    return Object.keys(arg).map(a => {
       if (arg[a] == "") {
-         return user[a];
+         return user[a].toLowerCase();
       } else {
          return exports.getMailchimpData(arg[a],user[a]);
       }
