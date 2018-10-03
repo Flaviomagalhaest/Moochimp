@@ -33,9 +33,10 @@ module.exports = function(app) {
         .post(mailchimp.getInfoUsers);        
 
     //Moochimp Services
-    app.route('/moochimp/sendToQueue')
-        .get(moochimp.sendToQueue);
-
     app.route('/moochimp/createUser')
         .post(moochimp.createUser);
+
+    app.route('/moochimp/createAndEnrolUser')
+        .post(moochimp.createAndEnrolUser);
+        
 }

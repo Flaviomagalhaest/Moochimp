@@ -2,6 +2,21 @@ const mailchimpController = require('../controller/mailchimpController');
 const producer = require('../queue/producer');
 const totalRequisicao = 50;	//Max number of users in each requisition
 
+exports.createAndEnrolUser = (param) => {
+	let result = undefined;
+	if ("enrol" in param.user) {
+		if ("enrol" in param) {
+			Object.keys(param.enrol)
+			.map(m => {
+				if (m == param.user.enrol) { result = param.enrol[m]; }
+			 })
+			 .filter(f => {return (f)})
+		}
+		delete param.user["enrol"];
+	}
+	return result;
+}
+
 exports.createUser = (param) => {
 	return new Promise((resolve, reject) => {
 		mailchimpController.getTotalUsers(param.mailchimp.url, param.mailchimp.token, 
@@ -12,13 +27,13 @@ exports.createUser = (param) => {
 		.then((listMailChimp) => {
 			return(exports.buildObjectUser(listMailChimp)) })
 		.then((listUser) => {
-			producer.sendToQueueCreateUser(params.moodle, listUser)})
+			producer.sendToQueueCreateUser(params, listUser)})
 		.then((confirm) => {
 			(confirm) ? resolve(confirm) : reject(confirm);
 		 })
-			// 	return sendToQueue(param.moodle, listaMailChimp) })
-		// .then((flag) => {
-		// 	resolve(flag);
+		.catch((error) => { 
+			reject(error); 
+		});
 	});
 }
 
@@ -29,7 +44,11 @@ exports.buildObjectUser = (listUsers) => {
 		let user = {};
 		Object.assign(user, moodleParams);
 		Object.keys(moodleParams).forEach(param => {
-			user[param] = exports.getMailchimpData(moodleParams[param], userMailchimp);
+			if (param == "customfields") {
+				user[param] = moodleParams[param];
+			} else {
+				user[param] = exports.getMailchimpData(moodleParams[param], userMailchimp);
+			}
 		})
 		listToQueue.push(user);
 	})
@@ -76,7 +95,8 @@ returnListUserMailchimp = (total, param) => {
 		exclude_fields: param.mailchimp.exclude_fields,
 		since_timestamp_opt: param.mailchimp.since_timestamp_opt,
 		token: param.mailchimp.token,
-		moodle: param.moodle
+		moodle: param.moodle,
+		enrol: ("enrol" in param) ? param.enrol : undefined			//Checking if enrol param is in the request
 	}
 	if (total > totalRequisicao) {
 		return getInfoUsersPerCall(total, params);
