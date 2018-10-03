@@ -35,4 +35,8 @@ module.exports = function(app) {
     //Moochimp Services
     app.route('/moochimp/createUser')
         .post(moochimp.createUser);
+
+    app.route('/moochimp/createAndEnrolUser')
+        .post(moochimp.createAndEnrolUser);
+        
 }

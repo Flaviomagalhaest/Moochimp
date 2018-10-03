@@ -45,7 +45,7 @@ exports.createAndEnrolUser = (req, res, next) => {
 		enrol: req.body[0].enrol
 	}
 
-	controller.createAndEnrolUser(param)
+	controller.createUser(param)
 	.then((data) => { res.json(data); })
 	.catch((error) => {	res.json(error); });
 }

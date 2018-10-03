@@ -437,6 +437,75 @@
           }
         }
       }
+    },
+    "/moochimp/createAndEnrolUser": {
+      "post": {
+        "tags": [
+          "Moochimp"
+        ],
+        "summary": "Search in list of Mailchimp and create users and enrol in specific course",
+        "operationId": "createAndEnrolUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "mailchimpUrl",
+            "in": "query",
+            "description": "Url of Mailchimp",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "mailchimpListId",
+            "in": "query",
+            "description": "ID of list in Mailchimp",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "mailchimpToken",
+            "in": "query",
+            "description": "Token of Mailchimp API",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "moodleUrl",
+            "in": "query",
+            "description": "Url of Moodle",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "moodleToken",
+            "in": "query",
+            "description": "Token of Moodle webservice",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Object of request. __description of variables in Model__",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/CreateUserReq"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
