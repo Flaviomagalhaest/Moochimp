@@ -22,7 +22,9 @@ exports.readQueueCreateUser = (conn) => {
 					console.log("user created successfully");
 					console.log(result);
 					//Case need enrol user in course
-					enrolUser(enrol, result, param, user);
+					enrolUser(enrol, result, param, user)
+				})
+				.then((result) => {
 					ch.ack(msg);
 				})
 				.catch((result) => {
@@ -35,14 +37,18 @@ exports.readQueueCreateUser = (conn) => {
 }
 
 enrolUser = (enrol, result, param, user) => {
-	if(enrol != undefined) {
-		let e = { "roleid": "5", "userid": result[0].id, "courseid": enrol	}	//enrol object
-		moodleController.enrolUser(param.url, param.token, [e])
-		.then((result) => {
-			console.log("User sucefully enroled!");
-		}).catch((error) => {
-			console.log("Error to enrol user in course");
-			producer.sendToFailEnrolQueue(user, "Error to enrol user in course");
-		});
-	}
+	return new Promise((resolve,reject) => {
+		if(enrol != undefined) {
+			let e = { "roleid": "5", "userid": result[0].id, "courseid": enrol	}	//enrol object
+			moodleController.enrolUser(param.url, param.token, [e])
+			.then((result) => {
+				console.log("User sucefully enroled!");
+				resolve("User sucefully enroled!");
+			}).catch((error) => {
+				console.log("Error to enrol user in course");
+				producer.sendToFailEnrolQueue(user, "Error to enrol user in course");
+				reject("Error to enrol user in course");
+			});
+		}
+	});
 }
