@@ -3,7 +3,6 @@ const controller = require('../controller/moodleController');
 const url = require('url');
 
 exports.getToken = (req, res, next) => {
-    const tokenSufixUrl = '/login/token.php';
     let query = url.parse(req.url, true).query;
 
     let user = query.username;
