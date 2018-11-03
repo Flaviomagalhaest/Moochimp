@@ -1,5 +1,4 @@
 
-
 # Moochimp v0.1.0
 
 
@@ -15,14 +14,13 @@ Mapped APIs:
 | get users  | Return list of users in request param  |
 | enrol user  | Enrol specific user in courses  |
 
-----------------------------------
-
+-------------------------------
 | MailChimp   | Description |
 | ------------- | ------------- |
 | get total users  | Return total number of users in mailchimp list  |
 | get info users  | Return list of users and specific informations   |
 
-----------------------------------
+-------------------------------
 
 **Moochimp services created:**
 
@@ -141,7 +139,10 @@ Moochimp has some unit tests writted using jest. To run:
 ```
 npm test
 ```
+## To Do
 
+ 1. Create Dockerfile and Docker-compose to run application em dev and prod enviroments
+ 2. Create some UI friendly interface  - Most users who use Moodle and more would benefit from the services are teachers who are not familiar with programming. So it's going to be cool to have an easier-to-use interface than Swagger.
 
 ## Authors
 
@@ -150,4 +151,3 @@ npm test
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
