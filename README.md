@@ -31,7 +31,7 @@ Mapped APIs:
 
 
 <p align='center'>
-<img src='https://github.com/Flaviomagalhaest/Moochimp/blob/dev/img/createEnrolUserDiagram.png' width='900' alt='npm start'>
+<img src='https://github.com/Flaviomagalhaest/Moochimp/blob/master/img/createEnrolUserDiagram.png' width='900' alt='Diagram'>
 </p>
 
 ## Getting Started
