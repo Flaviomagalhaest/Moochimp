@@ -1,91 +1,150 @@
-![alt text](https://github.com/Flaviomagalhaest/moochimp/blob/dev/img/logo.png "Description goes here")
-# moochimp v0.1.0
-<a href="https://travis-ci.com/Flaviomagalhaest/moochimp"><img alt="Build Status" src="https://travis-ci.com/Flaviomagalhaest/moochimp.svg?branch=master"></a>
 
 
-Hub of integrations services to Moodle and Mailchimp API's
+# Moochimp v0.1.0
+
+
+Moochimp is a hub of integrations services to **Moodle** and **Mailchimp** API's. Currently the services are accessed only through a Swagger interface
+
+
+Mapped APIs
+
+| Moodle   | Description |
+| ------------- | ------------- |
+| get token  | Return token of user in Moodle  |
+| create user  | Create user in Moodle  |
+| get users  | Return list of users in request param  |
+| enrol user  | Enrol specific user in courses  |
+
+
+| MailChimp   | Description |
+| ------------- | ------------- |
+| get total users  | Return total number of users in mailchimp list  |
+| get info users  | Return list of users and specific informations   |
+
+**Moochimp services created:**
+
+| Moochimp| Description |
+| ------------- | ------------- |
+| create users  | Receives mailchimp user list, creates this user in Moodle with data according to request  |
+| create and enrol users  | Receives mailchimp user list, creates this user in Moodle with data according to request and enrolls in specific course (also from request)   |
+
+
+
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
-
 ```
-Give examples
+npm v6.2.0+
+Rabbit MQ (On port 5672)
+Node.js v10.8.0+
 ```
 
 ### Installing
+To install project dependencies
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
-```
-Give the example
+```sh
+npm nodejs
 ```
 
-And repeat
+To start moochimp, go to project directory and use the command below
 
-```
-until finished
+```sh
+node app.js
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+go to http://localhost:3000/api-docs/ and you will se the swagger UI
+
+### How to use Moochimp services
+First, to use moochimp services, your Mailchimp account must have the API token set up correctly.
+See the [documentation](https://developer.mailchimp.com/documentation/mailchimp/)
+
+The same for your Moodle application. You need a webservice created and the API listed for it
+See the [documentation](https://docs.moodle.org/dev/Web_service_API_functions)
+
+#### Example of Mailchimp API response
+```json
+	"members": [
+		{
+			"id": "8b8e800f126658d8a47f7db782513dcf",
+			"email_address": "lukadoncic@hotmail.com",
+			"unique_email_id": "ed841ef392",
+			"email_type": "html",
+			"status": "subscribed",
+			"merge_fields": {
+				"FNAME": "Luka",
+				"LNAME": "Doncic",
+				"MMERGE5": "1999-02-28",
+				"PHONE": "99925685256",
+				"MMERGE6": "",
+				"MMERGE7": "Data Science",
+				"MMERGE8": "LinkedIn",
+				"MMERGE3": ""
+			},
+			"stats": {
+				"avg_open_rate": 1,
+				"avg_click_rate": 0
+			},
+			"ip_signup": "",
+			"timestamp_signup": "",
+			"ip_opt": "191.255.243.111",
+			"timestamp_opt": "2018-09-17T13:44:43+00:00",
+			"member_rating": 4,
+			"last_changed": "2018-09-17T13:44:43+00:00"
+    }
+  ]
+```
+#### Create and Enrol Users
+The body of service, works on the json bellow. First will list the "mailchimp" parameters and after will list the "moodle" parameters.
+
+```json
+[
+  {
+    "mailchimp": {
+      "since_timestamp_opt": "Restrict results to subscribers who opted-in after the set timeframe.",
+      "fields": "A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation.",
+      "exclude_fields": "A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation."
+    },
+    "moodle": {
+      "username": "username of new user in Moodle.",
+      "password": "password of new user in Moodle",
+      "firstname": "firstname of new user in Moodle",
+      "lastname": "lastname of new user in Moodle",
+      "email": "e-mail of new user in Moodle",
+      "enrol": "Course name to enrol in Moodle"
+    },
+    "enrol": {
+	    "courseName1": courseId,
+    	    "courseName2": courseId,
+    }
+  }
+]
+```
+To link the information of Mailchimp response to Moodle parameters is just use the following syntax:
+```json
+"username": {"merge_fields":{"FNAME":""}}
+```
+
+##### Example of Swagger page
+
+
+
 
 ## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
+Moochimp has some unit tests writted using jest. To run:
 ```
-Give an example
+npm test
 ```
 
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+* **Flávio Magalhães** - *Initial work* 
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
 
