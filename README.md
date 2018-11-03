@@ -30,7 +30,9 @@ Mapped APIs:
 | create and enrol users  | Receives mailchimp members list, creates this user in Moodle with data according to request and enrolls in specific course (also from request)   |
 
 
-
+<p align='center'>
+<img src='https://github.com/Flaviomagalhaest/Moochimp/blob/dev/img/createEnrolUserDiagram.png' width='900' alt='npm start'>
+</p>
 
 ## Getting Started
 
