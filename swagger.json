@@ -213,7 +213,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/Enrol"
+                "$ref": "#/definitions/EnrolMoodle"
               }
             }
           }
@@ -492,7 +492,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/CreateUserReq"
+                "$ref": "#/definitions/CreateEnrolUserReq"
               }
             }
           }
@@ -533,7 +533,34 @@
         "name": "User"
       }
     },
-    "Enrol": {
+    "UserEnrol": {
+      "type": "object",
+      "description": "Mapping which mailchimp parameters will used to create moodle user. Example: \"username: members.name\"",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "firstname": {
+          "type": "string"
+        },
+        "lastname": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "enrol": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "UserEnrol"
+      }
+    },
+    "EnrolMoodle": {
       "type": "object",
       "properties": {
         "roleid": {
@@ -549,25 +576,6 @@
       },
       "xml": {
         "name": "User"
-      }
-    },
-    "Filter": {
-      "type": "object",
-      "properties": {
-        "fields": {
-          "$ref": "#/definitions/Fields"
-        },
-        "exclude_fields": {
-          "$ref": "#/definitions/Fields"
-        }
-      }
-    },
-    "Fields": {
-      "type": "object",
-      "properties": {
-        "key": {
-          "type": "string"
-        }
       }
     },
     "Criteria": {
@@ -589,6 +597,20 @@
         },
         "moodle": {
           "$ref": "#/definitions/User"
+        }
+      }
+    },
+    "CreateEnrolUserReq": {
+      "type": "object",
+      "properties": {
+        "mailchimp": {
+          "$ref": "#/definitions/MailChimpCreateUserReq"
+        },
+        "moodle": {
+          "$ref": "#/definitions/UserEnrol"
+        },
+        "enrol": {
+          "type": "object"
         }
       }
     },

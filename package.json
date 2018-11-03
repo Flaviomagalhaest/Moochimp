@@ -1,7 +1,7 @@
 {
   "name": "moochimp",
-  "version": "1.0.0",
-  "description": "Template nodejs",
+  "version": "0.1.0",
+  "description": "Hub of integrations services to Moodle and Mailchimp API's",
   "main": "index.js",
   "scripts": {
     "test": "jest"
@@ -21,6 +21,7 @@
     "ejs": "^2.6.1",
     "express": "^4.16.3",
     "mongoose": "^5.2.7",
+    "nodemon": "^1.18.5",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
     "swagger-ui-express": "^4.0.1"
