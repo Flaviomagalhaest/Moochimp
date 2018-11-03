@@ -131,7 +131,7 @@ To link the information of Mailchimp response to Moodle parameters is just use t
 "username": {"merge_fields":{"FNAME":""}}
 ```
 
-**[Example request in Swagger page](https://github.com/Flaviomagalhaest/Moochimp/blob/dev/img/swagger-example.png)**
+**[Example request in Swagger page](https://github.com/Flaviomagalhaest/Moochimp/blob/master/img/swagger-example.png)**
 
 
 
