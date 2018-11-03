@@ -25,8 +25,8 @@ Mapped APIs
 
 | Moochimp| Description |
 | ------------- | ------------- |
-| create users  | Receives mailchimp user list, creates this user in Moodle with data according to request  |
-| create and enrol users  | Receives mailchimp user list, creates this user in Moodle with data according to request and enrolls in specific course (also from request)   |
+| create users  | Receives mailchimp members list, creates this user in Moodle with data according to request  |
+| create and enrol users  | Receives mailchimp members list, creates this user in Moodle with data according to request and enrolls in specific course (also from request)   |
 
 
 
