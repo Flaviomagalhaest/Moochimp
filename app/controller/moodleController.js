@@ -11,9 +11,9 @@ const wsfunctionMoodle = {
 }
 
 exports.getToken = (url, user, pass, service) => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         var options = {
-            uri: url,
+            uri: url + tokenSufixUrl,
             qs: {
                 'username': user,
                 'password': pass,
@@ -23,7 +23,7 @@ exports.getToken = (url, user, pass, service) => {
         }
 		rp(options)
 		.then((response) => {
-			if (response.errorcode) { reject(response); } 
+			if (response.errorcode || response.error) { reject(response); } 
 			else { resolve(response.token); }
 		});
     });
