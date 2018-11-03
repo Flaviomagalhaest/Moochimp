@@ -59,10 +59,10 @@ node app.js
 go to http://localhost:3000/api-docs/ and you will se the swagger UI
 
 ### How to use Moochimp services
-First, to use moochimp services, your Mailchimp account must have the API token set up correctly.
+First, to use Moochimp services, your Mailchimp account must have the API token set up correctly.
 See the [documentation](https://developer.mailchimp.com/documentation/mailchimp/)
 
-The same for your Moodle application. You need a webservice created and the API listed for it
+The same for your Moodle website. You need a webservice created and the API listed for it.
 See the [documentation](https://docs.moodle.org/dev/Web_service_API_functions)
 
 #### Example of Mailchimp API response
@@ -128,7 +128,7 @@ To link the information of Mailchimp response to Moodle parameters is just use t
 "username": {"merge_fields":{"FNAME":""}}
 ```
 
-##### Example of Swagger page
+**[Example request in Swagger page](https://github.com/Flaviomagalhaest/Moochimp/blob/dev/img/swagger-example.png)**
 
 
 
