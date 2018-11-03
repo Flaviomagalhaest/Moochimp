@@ -6,7 +6,7 @@
 Moochimp is a hub of integrations services to **Moodle** and **Mailchimp** API's. Currently the services are accessed only through a Swagger interface
 
 
-Mapped APIs
+Mapped APIs:
 
 | Moodle   | Description |
 | ------------- | ------------- |
@@ -15,11 +15,14 @@ Mapped APIs
 | get users  | Return list of users in request param  |
 | enrol user  | Enrol specific user in courses  |
 
+----------------------------------
 
 | MailChimp   | Description |
 | ------------- | ------------- |
 | get total users  | Return total number of users in mailchimp list  |
 | get info users  | Return list of users and specific informations   |
+
+----------------------------------
 
 **Moochimp services created:**
 
